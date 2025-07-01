@@ -12,7 +12,7 @@
 - [x] 完成專案文件系統初始化 (本文件)
 
 ## 階段二：核心功能開發 (進行中)
-- [ ] **(當前任務)** Lesson 4: 定義 API 與資料庫模型 (Pydantic & SQLAlchemy)
+- [x] **(當前任務)** Lesson 4: 定義 API 與資料庫模型 (Pydantic & SQLAlchemy)
 - [ ] Lesson 5: 撰寫爬蟲腳本 (`scripts/crawler.py`)
 - [ ] Lesson 6: 建立與連接 PostgreSQL 資料庫
 - [ ] Lesson 7: 完成食譜資料的寫入與讀取
