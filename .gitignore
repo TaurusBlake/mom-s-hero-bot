@@ -1,5 +1,6 @@
 # Virtual Environment
-/venv
+.venv/
+venv/
 
 # Python cache
 __pycache__/
@@ -11,3 +12,10 @@ __pycache__/
 
 # Environment variables file
 .env
+
+# Database Data (NEVER commit this)
+postgres-data/
+
+# Generated Data Files (Optional but Recommended)
+# *.txt
+# recipe_data.json

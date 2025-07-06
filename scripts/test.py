@@ -96,7 +96,7 @@ def parse_ytower_recipe(url: str):
 if __name__ == "__main__":
     target_urls = [
         'https://www.ytower.com.tw/recipe/iframe-recipe.asp?seq=D01-0431', # 紅燒豆腐
-        'https://www.ytower.com.tw/recipe/iframe-recipe.asp?seq=A03-0919', # 蔥爆牛肉
+        'https://www.ytower.com.tw/recipe/iframe-recipe.asp?seq=A01-0512', 
     ]
 
     all_recipes = []
