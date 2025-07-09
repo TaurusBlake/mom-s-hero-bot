@@ -14,8 +14,8 @@
 ## 階段二：核心功能開發 (進行中)
 - [x] **(當前任務)** Lesson 4: 定義 API 與資料庫模型 (Pydantic & SQLAlchemy)
 - [X] Lesson 5: 撰寫爬蟲腳本 (`scripts/crawler.py`)
-- [ ] Lesson 6: 建立與連接 PostgreSQL 資料庫
-- [ ] Lesson 7: 完成食譜資料的寫入與讀取
+- [X] Lesson 6: 建立與連接 PostgreSQL 資料庫
+- [x] Lesson 7: 完成食譜資料的寫入與讀取
 - [ ] Lesson 8: 整合 Line Messaging API
 
 ## 階段三：AI 智能核心 (規劃中)
