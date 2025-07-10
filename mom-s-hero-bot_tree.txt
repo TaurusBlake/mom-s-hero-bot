@@ -1,0 +1,41 @@
+├── -- DDL for creating the recipes table.sql
+├── Dockerfile
+├── README.md
+├── ROADMAP.md
+├── app/
+│   ├── __init__.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── deps.py
+│   │   └── v1/
+│   │       └── endpoints/
+│   │           ├── line_bot.py
+│   │           └── recipes.py
+│   ├── core/
+│   │   └── __init__.py
+│   ├── db/
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   └── session.py
+│   ├── main.py
+│   ├── schemas/
+│   │   ├── __init__.py
+│   │   └── recipe.py
+│   └── services/
+│       └── __init__.py
+├── docker-compose.yml
+├── docs/
+│   └── project_plan.md
+├── recipes_data.json
+├── requirements.txt
+├── scripts/
+│   ├── crawler.py
+│   ├── get_url.py
+│   ├── importer.py
+│   ├── requirements.txt
+│   ├── test.py
+│   └── url_integrate.py
+├── unique_urls.txt
+├── ytower_recipe_urls.txt
+├── ytower_recipe_urls1.txt
+└── ytower_recipe_urls2.txt

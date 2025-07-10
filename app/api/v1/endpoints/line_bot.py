@@ -9,9 +9,11 @@ from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import Configuration, ApiClient, MessagingApi, ReplyMessageRequest, TextMessage
 from linebot.v3.webhooks import MessageEvent, TextMessageContent
 
+# 匯入 AI 服務
+from app.services.ai_service import ai_service
+
 # 建立一個 APIRouter，之後可以被主應用程式 main.py 引用
 router = APIRouter()
-
 # 從 .env 檔案載入環境變數
 load_dotenv()
 
@@ -65,8 +67,11 @@ def handle_text_message(event):
     # 取得使用者傳來的文字
     user_text = event.message.text
     
-    # 準備回覆同樣的文字
-    reply_message = TextMessage(text=f"你說了：「{user_text}」")
+    # 將使用者的問題交由 AI 服務處理
+    ai_response = ai_service.chat(user_text)
+
+    # 準備回覆的訊息，內容為 AI 的回答
+    reply_message = TextMessage(text=ai_response)
 
     # 使用 line_bot_api 的 reply_message 方法回覆訊息
     # 注意：我們需要 event.reply_token 來知道要回覆給誰
