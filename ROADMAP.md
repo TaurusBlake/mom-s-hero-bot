@@ -19,7 +19,7 @@
 - [ ] Lesson 8: 整合 Line Messaging API
 
 ## 階段三：AI 智能核心 (規劃中)
-- [ ] Lesson 9: 整合 LangChain 與 Gemini API
+- [X] Lesson 9: 整合 LangChain 與 Gemini API
 - [ ] Lesson 10: 建立 GraphRAG 所需的知識圖譜
 - [ ] Lesson 11: 實現智能食譜推薦邏輯
 

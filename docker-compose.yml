@@ -1,7 +1,8 @@
 # docker-compose.yml
 services:
   db:
-    image: postgres:15-alpine
+    build:
+      context: ./postgres-docker
     container_name: moms_hero_db
     environment:
       - POSTGRES_USER=${DB_USER}       # 從 .env 讀取 DB_USER
