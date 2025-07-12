@@ -10,10 +10,11 @@ from linebot.v3.messaging import Configuration, ApiClient, MessagingApi, ReplyMe
 from linebot.v3.webhooks import MessageEvent, TextMessageContent
 
 # 匯入 AI 服務
-from app.services.ai_service import ai_service
+from app.services.ai_service import AIService
 
 # 建立一個 APIRouter，之後可以被主應用程式 main.py 引用
 router = APIRouter()
+ai_service = AIService()
 # 從 .env 檔案載入環境變數
 load_dotenv()
 

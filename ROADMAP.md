@@ -16,11 +16,11 @@
 - [X] Lesson 5: 撰寫爬蟲腳本 (`scripts/crawler.py`)
 - [X] Lesson 6: 建立與連接 PostgreSQL 資料庫
 - [x] Lesson 7: 完成食譜資料的寫入與讀取
-- [ ] Lesson 8: 整合 Line Messaging API
+- [x] Lesson 8: 整合 Line Messaging API
 
 ## 階段三：AI 智能核心 (規劃中)
-- [X] Lesson 9: 整合 LangChain 與 Gemini API
-- [ ] Lesson 10: 建立 GraphRAG 所需的知識圖譜
+- [x] Lesson 9: 整合 LangChain 與 Gemini API
+- [x] Lesson 10: 建立 GraphRAG 所需的知識圖譜
 - [ ] Lesson 11: 實現智能食譜推薦邏輯
 
 ## 階段四：部署與上線 (規劃中)

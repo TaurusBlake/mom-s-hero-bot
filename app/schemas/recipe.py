@@ -29,4 +29,12 @@ class Recipe(RecipeBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+class RecipeSearchResult(BaseModel):
+    id: int
+    name: str
+    image_url: HttpUrl
+    distance: float   # 相似度距離 (cosine distance)
+    class Config:
+        from_attributes = True 

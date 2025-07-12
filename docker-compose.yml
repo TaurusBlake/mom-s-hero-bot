@@ -1,15 +1,36 @@
 # docker-compose.yml
+
 services:
   db:
     build:
       context: ./postgres-docker
     container_name: moms_hero_db
     environment:
-      - POSTGRES_USER=${DB_USER}       # 從 .env 讀取 DB_USER
-      - POSTGRES_PASSWORD=${DB_PASSWORD} # 從 .env 讀取 DB_PASSWORD
-      - POSTGRES_DB=${DB_NAME}         # 從 .env 讀取 DB_NAME
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
       - "5432:5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .  # <-- 指向我們剛剛在根目錄建立的 Dockerfile
+    container_name: moms_hero_api
+    depends_on:
+      db:
+        condition: service_healthy # 確保 db 完全準備好之後，api 才啟動
+    ports:
+      - "8000:8000" # 將容器的 8000 port 映射到我們機器的 8000 port
+    env_file:
+      - .env # 將 .env 檔案中的所有環境變數傳遞給 api 容器
+    volumes:
+      - ./:/app # 將本地的 app 資料夾掛載到容器中，方便開發時即時更新
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     restart: always

@@ -2,37 +2,41 @@
 ├── Dockerfile
 ├── README.md
 ├── ROADMAP.md
-├── app/
+├── app
 │   ├── __init__.py
-│   ├── api/
+│   ├── api
 │   │   ├── __init__.py
 │   │   ├── deps.py
-│   │   └── v1/
-│   │       └── endpoints/
+│   │   └── v1
+│   │       └── endpoints
 │   │           ├── line_bot.py
 │   │           └── recipes.py
-│   ├── core/
+│   ├── core
 │   │   └── __init__.py
-│   ├── db/
+│   ├── db
 │   │   ├── __init__.py
 │   │   ├── models.py
 │   │   └── session.py
 │   ├── main.py
-│   ├── schemas/
+│   ├── schemas
 │   │   ├── __init__.py
 │   │   └── recipe.py
-│   └── services/
-│       └── __init__.py
+│   └── services
+│       ├── __init__.py
+│       └── ai_service.py
 ├── docker-compose.yml
-├── docs/
+├── docs
 │   └── project_plan.md
+├── mom-s-hero-bot_tree.txt
+├── postgres-docker
+│   └── Dockerfile
 ├── recipes_data.json
 ├── requirements.txt
-├── scripts/
+├── scripts
 │   ├── crawler.py
 │   ├── get_url.py
+│   ├── graph_builder.py
 │   ├── importer.py
-│   ├── requirements.txt
 │   ├── test.py
 │   └── url_integrate.py
 ├── unique_urls.txt
