@@ -1,6 +1,6 @@
 # 檔案位置: app/api/v1/endpoints/recipes.py
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Body
 from sqlalchemy.orm import Session
 
 # 這就是我們之前建立的「依賴項」和「資料庫模型」
@@ -9,9 +9,11 @@ from sqlalchemy import text
 from app.api import deps
 from app.db import models
 from app.schemas import recipe as recipe_schema
-from app.schemas.recipe import RecipeSearchResult
+from app.schemas.recipe import RecipeSearchResult, RecipeCreate, Recipe
 from typing import List
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from pydantic import BaseModel
+from app.api.deps import admin_auth
 
 # 建立一個專屬於食譜的 APIRouter
 router = APIRouter()
@@ -45,14 +47,17 @@ def read_recipe_by_id(
     # FastAPI 會很聰明地根據我們在 response_model 中指定的格式，將它轉換成 JSON
     return found_recipe
 
+class RecipeSearchRequest(BaseModel):
+    query: str
+    limit: int = 5
+
 @router.post(
     "/search",
     response_model=List[RecipeSearchResult],
     summary="語意搜尋食譜",
 )
 def search_recipes(
-    query: str = Query(..., description="搜尋文字"),
-    limit: int = Query(5, ge=1, le=20, description="回傳筆數，預設 5"),
+    body: RecipeSearchRequest = Body(...),
     db: Session = Depends(deps.get_db)
     ):
     # 1. 產生查詢向量
@@ -62,7 +67,7 @@ def search_recipes(
     emb = GoogleGenerativeAIEmbeddings(model="models/embedding-001",
                                        google_api_key=api_key)
     try:
-        q_vec = emb.embed_query(query)
+        q_vec = emb.embed_query(body.query)
     except Exception as e:
         raise HTTPException(500, f"Embedding 失敗: {e}")
 
@@ -75,10 +80,10 @@ def search_recipes(
         ORDER BY distance
         LIMIT :limit
     """)
-    rows = db.execute(stmt, {"q_vec": q_vec, "limit": limit}).fetchall()
+    rows = db.execute(stmt, {"q_vec": q_vec, "limit": body.limit}).fetchall()
 
     if not rows:
-        raise HTTPException(404, f"找不到符合「{query}」的食譜")
+        raise HTTPException(404, f"找不到符合「{body.query}」的食譜")
 
     # 3. 回傳結果
     return [
@@ -90,3 +95,41 @@ def search_recipes(
         )
         for r in rows
     ]
+
+@router.post("/", response_model=Recipe, summary="新增食譜", dependencies=[Depends(admin_auth)])
+def create_recipe(recipe: RecipeCreate, db: Session = Depends(deps.get_db)):
+    data = recipe.model_dump()
+    # 修正 image_url 為 str
+    data["image_url"] = str(data["image_url"])
+    # full_ingredient_list, nutrition_info 保持 dict
+    db_recipe = models.Recipe(**data)
+    db.add(db_recipe)
+    db.commit()
+    db.refresh(db_recipe)
+    return db_recipe
+
+@router.get("/", response_model=List[Recipe], summary="查詢所有食譜（分頁）", dependencies=[Depends(admin_auth)])
+def read_recipes(skip: int = 0, limit: int = 20, db: Session = Depends(deps.get_db)):
+    return db.query(models.Recipe).offset(skip).limit(limit).all()
+
+@router.put("/{recipe_id}", response_model=Recipe, summary="更新食譜", dependencies=[Depends(admin_auth)])
+def update_recipe(recipe_id: int, recipe: RecipeCreate, db: Session = Depends(deps.get_db)):
+    db_recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
+    if not db_recipe:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+    data = recipe.model_dump()
+    data["image_url"] = str(data["image_url"])
+    for k, v in data.items():
+        setattr(db_recipe, k, v)
+    db.commit()
+    db.refresh(db_recipe)
+    return db_recipe
+
+@router.delete("/{recipe_id}", summary="刪除食譜", dependencies=[Depends(admin_auth)])
+def delete_recipe(recipe_id: int, db: Session = Depends(deps.get_db)):
+    db_recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
+    if not db_recipe:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+    db.delete(db_recipe)
+    db.commit()
+    return {"ok": True}

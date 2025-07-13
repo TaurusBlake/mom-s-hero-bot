@@ -21,7 +21,7 @@ class RecipeBase(BaseModel):
     nutrition_info: Optional[dict] = None  # 營養資訊
 
 class RecipeCreate(RecipeBase):
-    """ 用於創建新食譜的模型。 """
+    """ 用於創建/更新食譜的模型。 """
     pass
 
 class Recipe(RecipeBase):

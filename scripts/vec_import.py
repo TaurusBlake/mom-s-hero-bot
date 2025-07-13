@@ -33,7 +33,7 @@ with open('recipes_data.json', 'r', encoding='utf-8') as f:
 
 # 連線資料庫
 with psycopg2.connect(DATABASE_URL) as conn, conn.cursor() as cur:
-    for idx, r in enumerate(recipes[2001:]):
+    for idx, r in enumerate(recipes[:]):
         name = r.get('name') or ''
         core = '；'.join(r.get('core_ingredients') or [])
         full = []

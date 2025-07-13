@@ -14,7 +14,7 @@ if DATABASE_URL is None:
     # 為了讓它在之前的 importer.py 也能運作，我們保留這種組裝方式作為備用
     db_user = os.getenv("DB_USER")
     db_password = os.getenv("DB_PASSWORD")
-    db_host = "localhost"
+    db_host = "db"
     db_port = "5432"
     db_name = os.getenv("DB_NAME")
     DATABASE_URL = f"postgresql+psycopg2://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"

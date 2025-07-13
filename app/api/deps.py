@@ -1,5 +1,7 @@
 # 檔案位置: app/api/deps.py
 from app.db.session import SessionLocal
+from fastapi import Header, HTTPException
+import os
 
 def get_db():
     """
@@ -12,3 +14,10 @@ def get_db():
         yield db
     finally:
         db.close()
+
+# 新增：管理者權限驗證依賴
+ADMIN_TOKEN = os.getenv("ADMIN_TOKEN", "changeme")
+
+def admin_auth(x_admin_token: str = Header(...)):
+    if x_admin_token != ADMIN_TOKEN:
+        raise HTTPException(status_code=403, detail="管理者權限驗證失敗")
